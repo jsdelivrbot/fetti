@@ -1,9 +1,9 @@
-const request = require('request');
-const cheerio = require('cheerio');
+import * as request from 'request';
+import * as cheerio from 'cheerio';
 
 const url = "https://www.citygear.com/catalog/shoes/gender/men/page/1/sort-by/price/sort-direction/asc.html";
 
-class CityGearParser {
+export class CityGearParser {
   getProducts() {
     request(url, (error, response, body) => {
       if (!error) {
@@ -14,7 +14,7 @@ class CityGearParser {
     });
   }
 
-  parseProducts(body) {
+  private parseProducts(body) {
     const $ = cheerio.load(body);
     const products = $(".category-products .item");
 
@@ -24,10 +24,9 @@ class CityGearParser {
 
         console.log(name + ' - ' + price);
       });
+
+    console.log('-------------------');
+    console.log('The end of the road');
+    console.log('-------------------');
   }
-};
-
-
-module.exports = {
-  CityGearParser
 };

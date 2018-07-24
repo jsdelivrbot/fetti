@@ -1,7 +1,11 @@
-const express = require('express');
-const path = require('path');
+
+
+import * as express from "express"
+import * as path from "path"
+
+import { scrapper } from "./scrapper";
+
 const PORT = process.env.PORT || 5000;
-const scrapper = require('./core/scrapper');
 
 scrapper.activate();
 
