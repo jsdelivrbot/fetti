@@ -1,8 +1,9 @@
 import { parsers } from './parsers';
 
 export const scrapper = {
+  activate,
+  parsers,
   name: 'fetti',
-  activate
 };
 
 function activate() {
