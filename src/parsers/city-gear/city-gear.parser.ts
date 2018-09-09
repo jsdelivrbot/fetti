@@ -13,15 +13,6 @@ export class CityGearParser {
         return Promise.resolve(products);
       })
       .catch(e => console.log(e));
-    // return rpn(url, (error, response, body) => {
-    //   if (!error) {
-    //     const products = this.parseProducts(body);
-
-    //     return Promise.resolve(products);
-    //   }
-
-    //   return Promise.reject(error);
-    // });
   }
 
   private parseProducts(body) {

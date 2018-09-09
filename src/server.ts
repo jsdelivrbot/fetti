@@ -11,8 +11,8 @@ scrapper.activate();
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
-  // .set('views', path.join(__dirname, 'views'))
-  // .set('view engine', 'ejs')
+  .set('views', path.join(__dirname,  '..','views'))
+  .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get('/products', async (req, res) => {
     const products = await scrapper.parsers.cityGearParser.getProducts();
