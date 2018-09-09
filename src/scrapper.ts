@@ -1,13 +1,12 @@
-import { parsers } from './parsers';
+import * as fromCore from './core';
 
 export const scrapper = {
   activate,
-  parsers,
   name: 'fetti',
 };
 
 function activate() {
-  parsers.cityGearParser.getProducts();
+  fromCore.dataHandler.monitor();
 
   console.log('activated');
 }

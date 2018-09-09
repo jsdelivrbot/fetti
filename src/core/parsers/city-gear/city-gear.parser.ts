@@ -1,4 +1,3 @@
-import * as request from 'request';
 import * as cheerio from 'cheerio';
 import * as rpn from 'request-promise-native';
 
@@ -17,12 +16,17 @@ export class CityGearParser {
 
   private parseProducts(body) {
     const $ = cheerio.load(body);
-    const products = $(".category-products .item");
-
-      products.each((idx, elem) => {
+    const productsEl = $(".category-products .item");
+    const products = [];
+  
+    productsEl.each((idx, elem) => {
         const price = $(elem).find('.price').text().trim();
         const name = $(elem).find('.product-name a').text();
 
+        products.push({
+          name,
+          price
+        });
         console.log(name + ' - ' + price);
       });
 
@@ -31,7 +35,7 @@ export class CityGearParser {
     console.log('The end of the road');
     console.log('-------------------');
 
-    return 'heyyy';
+    return products;
   }
 
   private makeUrl(params: any): string {

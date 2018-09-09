@@ -2,6 +2,7 @@
 
 import * as express from "express"
 import * as path from "path"
+import { router } from './routes/routes';
 
 import { scrapper } from "./scrapper";
 
@@ -11,14 +12,7 @@ scrapper.activate();
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname,  '..','views'))
+  .use(router)
+  .set('views', path.join(__dirname, '..','views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/products', async (req, res) => {
-    const products = await scrapper.parsers.cityGearParser.getProducts();
-
-    console.log(products);
-    res.send(products); 
-  })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
