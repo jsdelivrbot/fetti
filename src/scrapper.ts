@@ -1,5 +1,7 @@
 import * as fromCore from './core';
 
+import { parsers } from './core/parsers';
+
 export const scrapper = {
   activate,
   name: 'fetti',
@@ -7,6 +9,7 @@ export const scrapper = {
 
 function activate() {
   fromCore.dataHandler.monitor();
+  parsers.cityGearParser.getAllProducts();
 
   console.log('activated');
 }
