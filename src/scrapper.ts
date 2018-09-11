@@ -9,7 +9,7 @@ export const scrapper = {
 
 function activate() {
   fromCore.dataHandler.monitor();
-  parsers.cityGearParser.getAllProducts();
+  // parsers.cityGearParser.getAllProducts();
 
   console.log('activated');
 }

@@ -2,7 +2,6 @@ import * as cheerio from 'cheerio';
 import * as rpn from 'request-promise-native';
 
 interface ParsedData {
-  noMoreItems: boolean,
   products: any[];
 };
 
@@ -20,6 +19,7 @@ export class CityGearParser {
   }
 
   async getAllProducts() {
+    let previousPageQuantity = 0;
     let noMoreItems = false;
     let allProducts = [];
     let page = 1;
@@ -29,7 +29,12 @@ export class CityGearParser {
         const parsedData = await this.getProducts({ page });
         
         console.log('Finished page №' + page);
-        noMoreItems = parsedData.noMoreItems;
+
+        if (page > 1 && previousPageQuantity > parsedData.products.length) {
+          noMoreItems = true;
+        }
+        
+        previousPageQuantity = parsedData.products.length;
         allProducts = [
           ...allProducts,
           ...parsedData.products
@@ -38,14 +43,6 @@ export class CityGearParser {
       } catch (e) {
         noMoreItems = true;
       }
-
-      // if (!pageProducts) return;
-
-      // allProducts = [
-      //   ...allProducts,
-      //   ...products
-      // ]
-      // page++;
     }
 
     console.log(allProducts);
@@ -53,11 +50,9 @@ export class CityGearParser {
 
   private parseProducts(body: any): ParsedData {
     const $ = cheerio.load(body);
-    const noMoreItems = !!$('.no-more').length;
     const productsEl = $('.category-products .item');
     const products = [];
-    
-    console.log(productsEl.length);
+
     productsEl.each((idx, elem) => {
         const price = $(elem).find('.price').text().trim();
         const name = $(elem).find('.product-name a').text();
@@ -78,7 +73,6 @@ export class CityGearParser {
     // console.log('-------------------');
     
     return {
-      noMoreItems,
       products
     };
   }

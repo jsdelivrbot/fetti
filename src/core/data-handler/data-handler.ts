@@ -15,7 +15,8 @@ class DataHandler {
         products = await parsers.cityGearParser.getProducts();
 
         if (products) {
-          return  tgBot.sendMessage(chatId, JSON.stringify(products));
+          tgBot.sendDocument(chatId, 'http://25.io/toau/audio/sample.txt');
+          return tgBot.sendMessage(chatId, JSON.stringify(products));
         }
 
         return tgBot.sendMessage(chatId, 'No results');
