@@ -1,8 +1,9 @@
 import * as TelegramBot from 'node-telegram-bot-api';
+import { config } from './config';
 
-const token = '687745691:AAHjCkteHe5xsocuV-L4lIN1bcjnjGhrsw4';
+import { parsers } from '../core/parsers';
 
-export const tgBot = new TelegramBot(token, {polling: true});
+export const tgBot = new TelegramBot(config.token, {polling: true});
 
 // Matches "/echo [whatever]"
 tgBot.onText(/\/echo (.+)/, (msg, match) => {
@@ -17,11 +18,23 @@ tgBot.onText(/\/echo (.+)/, (msg, match) => {
   tgBot.sendMessage(chatId, resp);
 });
 
-// // Listen for any kind of message. There are different kinds of
-// // messages.
-// tgBot.on('message', (msg) => {
-//   const chatId = msg.chat.id;
 
-//   // send a message to the chat acknowledging receipt of their message
-//   tgBot.sendMessage(chatId, 'Received your message');
-// });
+tgBot.onText(/\/start/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const interval = 30000;
+  var products = null;
+  console.log(msg);
+  
+  tgBot.sendMessage(chatId, 'Started monitoring');
+
+  setInterval(async () => {
+    products = await parsers.cityGearParser.getProducts();
+
+    if (products) {
+      tgBot.sendDocument(chatId, 'http://www.pdf995.com/samples/pdf.pdf');
+      // return tgBot.sendMessage(chatId, JSON.stringify(products));
+    }
+
+    return tgBot.sendMessage(chatId, 'No results');
+  }, interval);
+});
