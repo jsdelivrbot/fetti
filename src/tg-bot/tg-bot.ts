@@ -3,16 +3,12 @@ import { config } from './config';
 
 import { parsers } from '../core/parsers';
 
-export const tgBot = new TelegramBot(config.token, {polling: true});
+export const tgBot = new TelegramBot(config.token, { polling: true });
 
 // Matches "/echo [whatever]"
 tgBot.onText(/\/echo (.+)/, (msg, match) => {
-  // 'msg' is the received Message from Telegram
-  // 'match' is the result of executing the regexp above on the text content
-  // of the message
-
   const chatId = msg.chat.id;
-  const resp = match[1]; // the captured "whatever"
+  const resp = match[1];
 
   // send back the matched "whatever" to the chat
   tgBot.sendMessage(chatId, resp);
