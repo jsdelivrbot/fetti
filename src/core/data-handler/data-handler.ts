@@ -1,27 +1,15 @@
-// import { parsers } from '../parsers';
-// import { tgBot } from '../../tg-bot/tg-bot';
+import { parsers } from '../parsers';
+import { PDFMaker } from '../utils'
+
+const pdfMaker = new PDFMaker();
 
 class DataHandler {
-  monitor(time?: number) {
-    // const interval = time || 30000;
-    // var products = null;
+  async getAsPDF(parser: string): Promise<any> {
+    const products = await parsers[parser].getAllProducts();
 
-    // tgBot.onText(/\/start/, (msg, match) => {
-    //   const chatId = msg.chat.id;
-      
-    //   tgBot.sendMessage(chatId, 'Started monitoring');
-
-    //   setInterval(async () => {
-    //     products = await parsers.cityGearParser.getProducts();
-
-    //     if (products) {
-    //       tgBot.sendDocument(chatId, 'http://www.pdf995.com/samples/pdf.pdf');
-    //       // return tgBot.sendMessage(chatId, JSON.stringify(products));
-    //     }
-
-    //     return tgBot.sendMessage(chatId, 'No results');
-    //   }, interval);
-    // });
+    const doc = pdfMaker.createPDF(products);
+    
+    return doc;
   }
 }
 

@@ -1,4 +1,4 @@
-import { parsers } from './core/parsers';
+import { dataHandler } from './core';
 
 export const scrapper = {
   activate,
@@ -6,7 +6,7 @@ export const scrapper = {
 };
 
 function activate() {
-  // parsers.cityGearParser.getAllProducts();
+  dataHandler.getAsPDF('cityGearParser');
 
   console.log('activated');
 }

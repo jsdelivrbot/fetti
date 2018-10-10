@@ -19,12 +19,11 @@ tgBot.onText(/\/start/, (msg, match) => {
   const chatId = msg.chat.id;
   const interval = 30000;
   var products = null;
-  console.log(msg);
   
   tgBot.sendMessage(chatId, 'Started monitoring');
 
   setInterval(async () => {
-    products = await parsers.cityGearParser.getProducts();
+    products = await parsers.cityGearParser.getAllProducts();
 
     if (products) {
       tgBot.sendDocument(chatId, 'http://www.pdf995.com/samples/pdf.pdf');

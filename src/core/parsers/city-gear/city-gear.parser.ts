@@ -24,8 +24,8 @@ export class CityGearParser {
     let allProducts = [];
     let page = 1;
 
-    while (!noMoreItems) {
-      try {
+    // while (!noMoreItems) {
+    //   try {
         const parsedData = await this.getProducts({ page });
         
         console.log('Finished page №' + page);
@@ -40,12 +40,12 @@ export class CityGearParser {
           ...parsedData.products
         ]
         page++;
-      } catch (e) {
-        noMoreItems = true;
-      }
-    }
+      // } catch (e) {
+      //   noMoreItems = true;
+      // }
+    // }
 
-    console.log(allProducts);
+    return allProducts;
   };
 
   private parseProducts(body: any): ParsedData {
@@ -66,15 +66,8 @@ export class CityGearParser {
           sellPrice
         });
       });
-
-
-    // console.log('-------------------');
-    // console.log('Finished page №' + );
-    // console.log('-------------------');
     
-    return {
-      products
-    };
+    return { products };
   }
 
   private makeUrl(params: any): string {
