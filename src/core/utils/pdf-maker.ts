@@ -6,18 +6,25 @@ import * as fromModels from '../../models';
 
 export class PDFMaker {
   createPDF(data: fromModels.Product[]) {
-    const doc = new PDFDocument;
+    const doc = new PDFDocument();
 
     doc.pipe(createWriteStream('output.pdf'));
 
     doc.fontSize(14);
 
-    data.forEach(product => {
-      const line = `${product.name} - ${product.originalPrice} - ${product.sellPrice}`;
+    data.forEach((product, idx) => {
+      const sellPrice = product.sellPrice || 'none';
+
       doc
-        .text(product.name, 100, 100, { lineBreak : false })
+        .fillColor('black')
+        .text(product.name, { continued: true })
+        .fillColor('green')
+        .text(` - ${product.originalPrice}$`, { continued: true })
+        .fillColor('black')
+        .text('  / ', { continued: true })
         .fillColor('red')
-        .text('World!');
+        .text(`${sellPrice}$`);
+
       doc.moveDown();
     });
     
