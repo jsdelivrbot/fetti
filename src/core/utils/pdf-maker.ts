@@ -13,17 +13,15 @@ export class PDFMaker {
     doc.fontSize(14);
 
     data.forEach((product, idx) => {
-      const sellPrice = product.sellPrice || 'none';
-
       doc
         .fillColor('black')
         .text(product.name, { continued: true })
         .fillColor('green')
-        .text(` - ${product.originalPrice}$`, { continued: true })
+        .text(` - ${this.formatPrice(product.originalPrice)}`, { continued: true })
         .fillColor('black')
         .text('  / ', { continued: true })
         .fillColor('red')
-        .text(`${sellPrice}$`);
+        .text(this.formatPrice(product.sellPrice));
 
       doc.moveDown();
     });
@@ -31,5 +29,9 @@ export class PDFMaker {
     doc.end()
 
     return doc;
+  }
+
+  formatPrice(price: string): string {
+    return price ? `${price}$` : 'N/A' 
   }
 }

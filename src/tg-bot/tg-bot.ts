@@ -1,7 +1,7 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 import { config } from './config';
 
-import { parsers } from '../core/parsers';
+import { dataHandler } from '../core/data-handler';
 
 export const tgBot = new TelegramBot(config.token, { polling: true });
 
@@ -23,11 +23,12 @@ tgBot.onText(/\/start/, (msg, match) => {
   tgBot.sendMessage(chatId, 'Started monitoring');
 
   setInterval(async () => {
-    products = await parsers.cityGearParser.getAllProducts();
-
+    products = await dataHandler.getAsPDF('cityGearParser');
+    console.log(products);
     if (products) {
-      tgBot.sendDocument(chatId, 'http://www.pdf995.com/samples/pdf.pdf');
-      // return tgBot.sendMessage(chatId, JSON.stringify(products));
+      tgBot.sendMessage(chatId, 'Sending docment...');
+      // tgBot.sendDocument(chatId, 'http://www.pdf995.com/samples/pdf.pdf');
+      return tgBot.sendDocument(chatId, products);
     }
 
     return tgBot.sendMessage(chatId, 'No results');

@@ -7,9 +7,7 @@ class DataHandler {
   async getAsPDF(parser: string): Promise<any> {
     const products = await parsers[parser].getAllProducts();
 
-    const doc = pdfMaker.createPDF(products);
-    
-    return doc;
+    return pdfMaker.createPDF(products);
   }
 }
 
