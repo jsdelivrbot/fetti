@@ -8,7 +8,7 @@ export class PDFMaker {
   createPDF(data: fromModels.Product[]) {
     const doc = new PDFDocument();
 
-    doc.pipe(createWriteStream('output.pdf'));
+    doc.pipe(createWriteStream('./source/output.pdf'));
 
     doc.fontSize(14);
 
@@ -26,9 +26,7 @@ export class PDFMaker {
       doc.moveDown();
     });
     
-    doc.end()
-
-    return doc;
+    doc.end();
   }
 
   formatPrice(price: string): string {

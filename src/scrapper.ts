@@ -6,7 +6,7 @@ export const scrapper = {
 };
 
 function activate() {
-  dataHandler.getAsPDF('cityGearParser');
+  dataHandler.createPDF('cityGearParser');
 
   console.log('activated');
 }

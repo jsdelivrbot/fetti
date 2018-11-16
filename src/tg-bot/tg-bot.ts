@@ -1,3 +1,4 @@
+import { createReadStream } from 'fs';
 import * as TelegramBot from 'node-telegram-bot-api';
 import { config } from './config';
 
@@ -18,17 +19,17 @@ tgBot.onText(/\/echo (.+)/, (msg, match) => {
 tgBot.onText(/\/start/, (msg, match) => {
   const chatId = msg.chat.id;
   const interval = 30000;
-  var products = null;
   
   tgBot.sendMessage(chatId, 'Started monitoring');
 
   setInterval(async () => {
-    products = await dataHandler.getAsPDF('cityGearParser');
-    console.log(products);
-    if (products) {
+    dataHandler.createPDF('cityGearParser');
+
+    const pdf = createReadStream('./source/output.pdf');
+    
+    if (pdf) {
       tgBot.sendMessage(chatId, 'Sending docment...');
-      // tgBot.sendDocument(chatId, 'http://www.pdf995.com/samples/pdf.pdf');
-      return tgBot.sendDocument(chatId, products);
+      return tgBot.sendDocument(chatId, pdf);
     }
 
     return tgBot.sendMessage(chatId, 'No results');

@@ -4,10 +4,10 @@ import { PDFMaker } from '../utils'
 const pdfMaker = new PDFMaker();
 
 class DataHandler {
-  async getAsPDF(parser: string): Promise<any> {
+  async createPDF(parser: string): Promise<any> {
     const products = await parsers[parser].getAllProducts();
 
-    return pdfMaker.createPDF(products);
+    pdfMaker.createPDF(products);
   }
 }
 
